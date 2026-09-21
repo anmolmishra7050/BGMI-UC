@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - BGMI UC store</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">UC</span>
+        <span data-site-name>UC store</span>
+        <span class="hint" style="margin-left:8px">admin panel</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Open store</a>
+        <span id="session-user" class="hint"></span>
+        <button class="btn btn-ghost btn-sm hidden" id="logout-button">Log out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container section">
+    <!-- login -->
+    <div id="login-view" class="panel login-card">
+      <h2>Admin sign in</h2>
+      <p>Manage orders, verify UPI payments and mark UC as delivered.</p>
+      <form id="login-form">
+        <div class="field">
+          <label class="label" for="username">Username</label>
+          <input class="input" id="username" autocomplete="username" value="admin" required />
+        </div>
+        <div class="field">
+          <label class="label" for="password">Password</label>
+          <input class="input" id="password" type="password" autocomplete="current-password" required />
+        </div>
+        <div class="form-error" id="login-error"></div>
+        <button class="btn btn-primary btn-block" id="login-button" type="submit">Sign in</button>
+      </form>
+      <p class="hint" style="margin-top:14px">
+        Default credentials live in <code>config.json</code>. Change the password with
+        <code>python server.py --set-admin-password</code>.
+      </p>
+    </div>
+
+    <!-- dashboard -->
+    <div id="dashboard-view" class="hidden">
+      <div class="section-head">
+        <span class="eyebrow">Dashboard</span>
+        <h2>Orders &amp; payments</h2>
+      </div>
+
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-label">Needs verification</div>
+          <div class="stat-value" id="stat-needs-action">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Orders today</div>
+          <div class="stat-value" id="stat-orders-today">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Delivered today</div>
+          <div class="stat-value" id="stat-delivered-today">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Revenue today</div>
+          <div class="stat-value" id="stat-revenue-today">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Revenue (delivered)</div>
+          <div class="stat-value" id="stat-revenue-total">-</div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <select class="select" id="filter-status">
+          <option value="all">All statuses</option>
+          <option value="awaiting_review">Awaiting review</option>
+          <option value="pending_payment">Awaiting payment</option>
+          <option value="processing">Processing</option>
+          <option value="completed">Delivered</option>
+          <option value="rejected">Rejected</option>
+          <option value="expired">Expired</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+        <input class="input" id="filter-search" placeholder="Search order ID, player, UTR, contact" />
+        <button class="btn btn-ghost btn-sm" id="refresh-button">Refresh</button>
+        <button class="btn btn-ghost btn-sm" id="export-button">Export CSV</button>
+        <span class="hint" id="table-summary"></span>
+      </div>
+
+      <div class="table-wrap">
+        <table class="orders">
+          <thead>
+            <tr>
+              <th>Created</th>
+              <th>Order</th>
+              <th>Pack</th>
+              <th>Amount</th>
+              <th>Player</th>
+              <th>UTR</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="orders-body">
+            <tr><td colspan="7" class="skeleton">Loading orders...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel" style="margin-top:24px" id="feedback-panel">
+        <div class="stack-row" style="align-items:flex-start;margin-bottom:6px">
+          <div>
+            <span class="eyebrow">Inbox</span>
+            <h3 style="margin-bottom:4px">Feedback <span class="hint" id="feedback-count-label"></span></h3>
+            <p class="hint">
+              Private messages sent from the storefront form. They are never shown on the
+              public site - only here. The reviews on the storefront come from
+              <code>site.reviews</code> in <code>config.json</code>.
+            </p>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="feedback-refresh">Refresh</button>
+        </div>
+        <div id="feedback-list" style="margin-top:14px">
+          <p class="skeleton">Loading feedback...</p>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:24px" id="pricing-panel">
+        <div class="stack-row" style="align-items:flex-start;margin-bottom:6px">
+          <div>
+            <span class="eyebrow">Pricing</span>
+            <h3 style="margin-bottom:4px">Packs &amp; prices</h3>
+            <p class="hint">
+              Edit prices here and they go live immediately for new orders - no restart needed.
+              Prices come from <code>config.json</code> until you save changes.
+            </p>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="pricing-reset">Reset to config.json</button>
+        </div>
+
+        <div class="table-wrap" style="margin-top:14px">
+          <table class="orders" id="pricing-table">
+            <thead>
+              <tr>
+                <th>Pack name</th>
+                <th>UC</th>
+                <th>Bonus UC</th>
+                <th>Price (₹)</th>
+                <th>Badge</th>
+                <th>Featured</th>
+                <th>Per UC</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="pricing-body">
+              <tr><td colspan="8" class="skeleton">Loading packs...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="toolbar" style="margin-bottom:0">
+          <button class="btn btn-ghost btn-sm" id="pricing-add">+ Add package</button>
+          <label class="hint" for="pricing-rate">Custom UC rate (₹ per UC)</label>
+          <input class="input" id="pricing-rate" type="number" min="0" step="0.01" style="max-width:110px" />
+          <button class="btn btn-primary btn-sm" id="pricing-save">Save prices</button>
+          <span class="hint" id="pricing-status"></span>
+        </div>
+        <div class="form-error" id="pricing-error" style="margin-top:14px"></div>
+      </div>
+
+      <div class="panel" style="margin-top:24px">
+        <h3>Store settings</h3>
+        <dl class="kv" id="settings-list"></dl>
+        <p class="hint" style="margin-top:12px">
+          Edit <code>config.json</code> (and restart the server) to change packs, prices, your UPI ID
+          or the QR mode.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <div class="backdrop" id="backdrop"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <span class="eyebrow">Order detail</span>
+        <h3 class="mono" id="drawer-order-id">-</h3>
+        <div id="drawer-status"></div>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="drawer-close">Close</button>
+    </div>
+    <div id="drawer-body"></div>
+    <div class="field" style="margin-top:18px">
+      <label class="label" for="drawer-note">Admin note (visible to you)</label>
+      <textarea class="textarea" id="drawer-note" maxlength="300"
+                placeholder="e.g. payment matched in bank statement"></textarea>
+    </div>
+    <div class="drawer-actions">
+      <button class="btn btn-outline btn-sm" id="action-processing">Payment verified</button>
+      <button class="btn btn-primary btn-sm" id="action-completed">Mark delivered</button>
+      <button class="btn btn-danger btn-sm" id="action-rejected">Reject payment</button>
+    </div>
+    <div class="form-error" id="drawer-error" style="margin-top:14px"></div>
+  </aside>
+
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/admin.js"></script>
+</body>
+</html>

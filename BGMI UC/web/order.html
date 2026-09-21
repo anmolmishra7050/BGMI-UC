@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order status - BGMI UC store</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">UC</span>
+        <span data-site-name>UC store</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Store</a>
+        <a href="#help" class="hide-sm">Need help?</a>
+        <a href="/admin" class="admin-link">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container section">
+    <div id="loading" class="skeleton">Loading order...</div>
+
+    <div id="not-found" class="panel hidden" style="max-width:520px;margin:0 auto">
+      <h3>Find your order</h3>
+      <p>Enter the order ID we gave you at checkout (for example <code>UC-4F2A91B0</code>).</p>
+      <div class="field">
+        <label class="label" for="lookup-input">Order ID</label>
+        <input class="input mono" id="lookup-input" placeholder="UC-XXXXXXXX" />
+      </div>
+      <button class="btn btn-primary btn-block" id="lookup-button">Open order</button>
+      <p class="hint" id="lookup-error" style="color:var(--red);margin-top:12px"></p>
+    </div>
+
+    <div id="order-view" class="hidden">
+      <div class="grid grid-2" style="align-items:start">
+        <div class="stack" style="gap:18px">
+          <div class="panel">
+            <div class="stack-row" style="margin-bottom:10px">
+              <div>
+                <span class="eyebrow">Order</span>
+                <h2 class="mono" id="order-id" style="margin:0;font-size:1.4rem">-</h2>
+              </div>
+              <button class="btn btn-ghost btn-sm" id="copy-order-id">Copy ID</button>
+            </div>
+            <div id="status-pill"></div>
+            <p id="status-message" style="margin-top:12px"></p>
+            <div class="stack-row">
+              <span>Amount payable</span>
+              <strong id="order-amount" style="color:var(--gold);font-size:1.25rem">-</strong>
+            </div>
+            <div class="stack-row" id="countdown-row">
+              <span>Payment window closes in</span>
+              <strong class="countdown" id="countdown">-</strong>
+            </div>
+          </div>
+
+          <div class="panel" id="payment-panel">
+            <span class="eyebrow">Pay with UPI</span>
+            <h3>Scan &amp; pay <span id="pay-amount" style="color:var(--gold)"></span></h3>
+            <div class="qr-wrap">
+              <img id="qr-image" alt="UPI QR code for this order" />
+            </div>
+            <p class="hint center" id="qr-mode-hint"></p>
+            <div class="upi-row">
+              <div>
+                <div class="hint">UPI ID</div>
+                <div class="upi-id" id="upi-id">-</div>
+              </div>
+              <button class="btn btn-ghost btn-sm" id="copy-upi">Copy</button>
+            </div>
+            <div class="upi-row">
+              <div>
+                <div class="hint">Payment reference (add this if your app asks)</div>
+                <div class="upi-id" id="payment-reference">-</div>
+              </div>
+              <button class="btn btn-ghost btn-sm" id="copy-reference">Copy</button>
+            </div>
+            <a class="btn btn-outline btn-block" id="open-upi-app" href="#" style="margin-top:16px">
+              Open in a UPI app on this device
+            </a>
+            <ol class="steps-list" id="payment-instructions" style="margin-top:18px"></ol>
+          </div>
+
+          <div class="panel" id="utr-panel">
+            <span class="eyebrow">Step 3</span>
+            <h3 id="utr-title">Paid? Submit your UTR</h3>
+            <p>
+              Paste the UPI transaction ID / UTR from your payment receipt. We match it against
+              the bank statement and release the UC.
+            </p>
+            <div class="field">
+              <label class="label" for="utr-input">UTR / UPI transaction ID</label>
+              <input class="input mono" id="utr-input" placeholder="e.g. 431298765432" autocomplete="off" />
+            </div>
+            <div class="form-error" id="utr-error"></div>
+            <button class="btn btn-primary btn-block" id="submit-utr">Submit payment proof</button>
+            <button class="btn btn-ghost btn-block" id="cancel-order" style="margin-top:10px">
+              Cancel this order
+            </button>
+          </div>
+        </div>
+
+        <div class="stack" style="gap:18px">
+          <div class="panel">
+            <h3>Order details</h3>
+            <dl class="kv" id="order-details"></dl>
+          </div>
+          <div class="panel">
+            <h3>Activity</h3>
+            <ul class="timeline" id="timeline"></ul>
+          </div>
+          <div class="panel" id="help">
+            <h3>Need help?</h3>
+            <p class="hint">
+              Keep your order ID ready and message support:
+              <a id="support-email" href="#">-</a>
+              &middot; <a id="support-whatsapp" href="#">WhatsApp</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="hint" id="disclaimer"></p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/order.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - BGMI UC store</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">UC</span>
+        <span data-site-name>UC store</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Back to store</a>
+        <a href="/admin" class="admin-link">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container section">
+    <div class="section-head">
+      <span class="eyebrow">Step 2</span>
+      <h2>Confirm your order</h2>
+      <p>We deliver to the player ID below. Double-check it - UC sent to a wrong ID cannot be reversed.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <form class="panel" id="checkout-form" novalidate>
+        <div class="field">
+          <label class="label" for="pack-select">UC pack</label>
+          <select class="select" id="pack-select">
+            <option value="">Loading packs...</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="label" for="custom-uc-input">Or enter a custom UC amount</label>
+          <input class="input" id="custom-uc-input" type="number" inputmode="numeric"
+                 placeholder="e.g. 2000" />
+          <span class="hint" id="custom-uc-hint"></span>
+        </div>
+
+        <div class="field">
+          <label class="label" for="player-id">BGMI player ID *</label>
+          <input class="input mono" id="player-id" inputmode="numeric" autocomplete="off"
+                 placeholder="e.g. 5123456789" required />
+          <span class="hint">Numeric ID from your BGMI profile - 8 to 12 digits.</span>
+        </div>
+
+        <div class="field">
+          <label class="label" for="player-name">Character / in-game name *</label>
+          <input class="input" id="player-name" maxlength="32" placeholder="e.g. ShadowOP" required />
+        </div>
+
+        <div class="field">
+          <label class="label" for="contact">Email or phone (optional)</label>
+          <input class="input" id="contact" maxlength="80" placeholder="you@example.com" />
+          <span class="hint">Used only to reach you about this order.</span>
+        </div>
+
+        <div class="field">
+          <label class="label" for="note">Note for support (optional)</label>
+          <textarea class="textarea" id="note" maxlength="200"
+                    placeholder="Anything we should know? e.g. deliver after 6 PM"></textarea>
+        </div>
+
+        <div class="form-error" id="form-error"></div>
+        <button class="btn btn-primary btn-block" id="submit-order" type="submit">
+          Continue to UPI payment
+        </button>
+      </form>
+
+      <aside class="panel" style="align-self:start">
+        <h3>Order summary</h3>
+        <div class="kv" id="summary"></div>
+        <div class="qr-wrap" style="margin-top:22px">
+          <img src="/assets/img/upi-placeholder.svg" alt="UPI QR shown after you place the order" />
+        </div>
+        <p class="hint center" style="margin-top:14px">
+          Your personal UPI QR is generated as soon as the order is created.
+        </p>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="hint" id="disclaimer"></p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/checkout.js"></script>
+</body>
+</html>

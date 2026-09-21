@@ -1,0 +1,186 @@
+{
+  "_howto": "This is the only file you need to touch to run your own UC store. Change upi_id + payee_name to YOUR UPI account, tweak the packs/prices, then restart the server. Change the admin password with: python server.py --set-admin-password",
+
+  "site": {
+    "name": "UC Vault",
+    "tagline": "Instant BGMI UC top-ups paid by UPI. Verified by hand, delivered fast.",
+    "currency": "INR",
+    "support_email": "support@example.com",
+    "support_whatsapp": "",
+    "delivery_note": "UC is delivered to your BGMI player ID within 5-15 minutes after your payment is verified.",
+    "disclaimer": "This store is an independent reseller and is not affiliated with, endorsed by, or sponsored by KRAFTON, Inc. or Level Infinite. BGMI and UC are trademarks of their respective owners.",
+    "highlights": [
+      "Pay by UPI - GPay, PhonePe, Paytm or any bank app",
+      "Manual payment verification, zero chargebacks",
+      "Live order tracking with UTR proof and history"
+    ],
+    "faq": [
+      {
+        "q": "How fast will I get my UC?",
+        "a": "Orders are usually delivered within 5-15 minutes of payment verification. During peak hours it can take up to an hour. You can watch the status on your order page."
+      },
+      {
+        "q": "What is a UTR and where do I find it?",
+        "a": "UTR (Unique Transaction Reference) is the transaction ID your UPI app shows after a successful payment. Open the payment in GPay / PhonePe / Paytm and copy the 12-digit UPI transaction ID."
+      },
+      {
+        "q": "Do you need my account password or OTP?",
+        "a": "Never. We only need your numeric BGMI player ID and character name. Anyone asking for a password, OTP or login is a scammer - report it to us."
+      },
+      {
+        "q": "I entered the wrong player ID. What now?",
+        "a": "Message support with your order ID right away. If the order has not been delivered yet, we will update the player ID for you."
+      },
+      {
+        "q": "Can I get a refund?",
+        "a": "If a payment cannot be matched to an order, we refund it to the same UPI account after verification. Delivered UC cannot be refunded."
+      }
+    ],
+    "reviews": [
+      {
+        "name": "Rohit S.",
+        "rating": 5,
+        "date": "2026-08-24",
+        "pack": "660 UC",
+        "text": "Paid with GPay late at night and the UC was in my account before the next match ended. Legit seller."
+      },
+      {
+        "name": "Aman Verma",
+        "rating": 5,
+        "date": "2026-07-11",
+        "pack": "1800 UC",
+        "text": "Was sceptical about paying first, but the order page kept updating so I could see it was being handled. Second order done today."
+      },
+      {
+        "name": "ShadowKing_YT",
+        "rating": 4,
+        "date": "2026-06-29",
+        "pack": "325 UC",
+        "text": "Took around 20 minutes because it was peak hour, but the price is much better than buying in game."
+      },
+      {
+        "name": "Priya N.",
+        "rating": 5,
+        "date": "2026-05-18",
+        "pack": "60 UC",
+        "text": "Small top-up for the Royale Pass, delivered in about 6 minutes."
+      },
+      {
+        "name": "Faizan K.",
+        "rating": 5,
+        "date": "2026-03-30",
+        "pack": "3850 UC",
+        "text": "Ordered the big pack for a mythic outfit. Support answered on WhatsApp within a minute."
+      },
+      {
+        "name": "Nikhil Raut",
+        "rating": 4,
+        "date": "2026-02-14",
+        "pack": "660 UC",
+        "text": "Good service overall. Only suggestion is adding more payment apps to the QR page."
+      },
+      {
+        "name": "ARJUN_OP",
+        "rating": 5,
+        "date": "2026-01-22",
+        "pack": "8100 UC",
+        "text": "Third order from this store. Prices stay the same and they never ask for your password."
+      }
+    ]
+  },
+
+  "payment": {
+    "upi_id": "yourname@upi",
+    "payee_name": "UC Vault",
+    "upi_qr_mode": "dynamic",
+    "static_qr_image": "assets/my-qr.png",
+    "order_expiry_minutes": 30,
+    "min_order_amount": 20,
+    "max_order_amount": 100000,
+    "custom_uc_enabled": true,
+    "custom_uc_rate": 1.2,
+    "custom_uc_min": 60,
+    "custom_uc_max": 20000,
+    "instructions": [
+      "Scan the QR with any UPI app (GPay, PhonePe, Paytm, BHIM).",
+      "Pay the exact amount shown - partial payments cannot be traced.",
+      "Copy the UTR / UPI transaction ID from your payment receipt.",
+      "Paste it on this page and submit. We verify and deliver your UC."
+    ]
+  },
+
+  "packs": [
+    {
+      "id": "uc-60",
+      "name": "Starter",
+      "uc": 60,
+      "bonus_uc": 0,
+      "price": 85,
+      "description": "Perfect for a quick Royale Pass mission top-up."
+    },
+    {
+      "id": "uc-325",
+      "name": "Popular",
+      "uc": 300,
+      "bonus_uc": 25,
+      "price": 375,
+      "badge": "Most bought",
+      "description": "The sweet spot for a new outfit or gun skin."
+    },
+    {
+      "id": "uc-660",
+      "name": "Best value",
+      "uc": 600,
+      "bonus_uc": 60,
+      "price": 725,
+      "popular": true,
+      "description": "Enough UC for a crate opening plus change."
+    },
+    {
+      "id": "uc-1800",
+      "name": "Elite",
+      "uc": 1800,
+      "bonus_uc": 0,
+      "price": 1899,
+      "description": "For the mythic outfit grinders."
+    },
+    {
+      "id": "uc-3850",
+      "name": "Pro",
+      "uc": 3850,
+      "bonus_uc": 0,
+      "price": 3799,
+      "description": "Big spender territory and a great per-UC rate."
+    },
+    {
+      "id": "uc-8100",
+      "name": "Whale",
+      "uc": 8100,
+      "bonus_uc": 0,
+      "price": 7499,
+      "description": "Maximum UC, lowest cost per UC."
+    }
+  ],
+
+  "security": {
+    "orders_per_10_minutes": 12,
+    "payment_submissions_per_10_minutes": 20,
+    "order_reads_per_minute": 240,
+    "qr_requests_per_minute": 120,
+    "admin_logins_per_10_minutes": 8,
+    "feedback_per_hour": 6
+  },
+
+  "admin": {
+    "username": "admin",
+    "password": "admin123",
+    "session_hours": 12,
+    "cookie_secure": false
+  },
+
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8080,
+    "db_path": "data/store.db"
+  }
+}

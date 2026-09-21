@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" role="img" aria-label="UPI QR placeholder">
+  <rect width="240" height="240" fill="#ffffff"/>
+  <g fill="#0b0b14">
+    <rect x="16" y="16" width="60" height="60"/>
+    <rect x="164" y="16" width="60" height="60"/>
+    <rect x="16" y="164" width="60" height="60"/>
+  </g>
+  <g fill="#ffffff">
+    <rect x="28" y="28" width="36" height="36"/>
+    <rect x="176" y="28" width="36" height="36"/>
+    <rect x="28" y="176" width="36" height="36"/>
+  </g>
+  <g fill="#0b0b14">
+    <rect x="38" y="38" width="16" height="16"/>
+    <rect x="186" y="38" width="16" height="16"/>
+    <rect x="38" y="186" width="16" height="16"/>
+    <rect x="96" y="16" width="14" height="14"/>
+    <rect x="120" y="16" width="14" height="14"/>
+    <rect x="96" y="40" width="14" height="14"/>
+    <rect x="132" y="52" width="14" height="14"/>
+    <rect x="108" y="76" width="14" height="14"/>
+    <rect x="16" y="96" width="14" height="14"/>
+    <rect x="40" y="108" width="14" height="14"/>
+    <rect x="64" y="96" width="14" height="14"/>
+    <rect x="88" y="120" width="14" height="14"/>
+    <rect x="112" y="144" width="14" height="14"/>
+    <rect x="64" y="164" width="14" height="14"/>
+    <rect x="96" y="188" width="14" height="14"/>
+    <rect x="140" y="96" width="14" height="14"/>
+    <rect x="164" y="120" width="14" height="14"/>
+    <rect x="188" y="144" width="14" height="14"/>
+    <rect x="140" y="168" width="14" height="14"/>
+    <rect x="164" y="188" width="14" height="14"/>
+    <rect x="208" y="164" width="14" height="14"/>
+    <rect x="120" y="188" width="14" height="14"/>
+  </g>
+  <g fill="#6b6b7d">
+    <rect x="88" y="88" width="64" height="30" rx="6"/>
+    <rect x="88" y="128" width="64" height="16" rx="6"/>
+  </g>
+  <text x="120" y="109" font-family="sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#ffffff">UPI QR</text>
+</svg>

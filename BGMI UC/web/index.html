@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BGMI UC store</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237c5cff'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='%23fff' font-family='sans-serif'>U</text></svg>" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">UC</span>
+        <span id="brand-name">UC store</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#packs">Packs</a>
+        <a href="#how" class="hide-sm">How it works</a>
+        <a href="#faq" class="hide-sm">FAQ</a>
+        <a href="#track">Track order</a>
+        <a href="/admin" class="admin-link">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero">
+      <div>
+        <span class="eyebrow">BGMI UC top-up &middot; UPI payments</span>
+        <h1 id="hero-headline">Instant BGMI UC top-ups</h1>
+        <p>
+          Pay with any UPI app, submit your transaction ID, and we push the UC straight to
+          your own player ID. Live status, honest prices, no account sharing.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#packs">Browse UC packs</a>
+          <a class="btn btn-ghost" href="#track">Track my order</a>
+        </div>
+        <ul class="chips" id="highlights"></ul>
+      </div>
+
+      <div class="hero-card">
+        <div class="glow"></div>
+        <div class="panel">
+          <h3>Why players order here</h3>
+          <div class="stack">
+            <div class="stack-row"><span>Payment method</span><strong>UPI QR / UPI ID</strong></div>
+            <div class="stack-row"><span>Paying to</span><strong id="upi-badge" class="mono">loading...</strong></div>
+            <div class="stack-row"><span>Order window</span><strong>30 minutes</strong></div>
+            <div class="stack-row"><span>Average delivery</span><strong>5-15 minutes</strong></div>
+          </div>
+          <p id="delivery-note" class="hint" style="margin-top:16px"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="packs">
+      <div class="section-head">
+        <span class="eyebrow">Step 1</span>
+        <h2>Pick your UC pack</h2>
+        <p>Every pack is delivered to the player ID you enter - we never log into your account.</p>
+      </div>
+      <div id="setup-notice" class="notice hidden" style="margin-bottom:18px">
+        Heads up: this store still has the placeholder UPI ID configured. Set
+        <code>payment.upi_id</code> in <code>config.json</code> before taking real orders.
+      </div>
+      <div class="grid grid-3" id="packs-grid">
+        <p class="skeleton">Loading packs...</p>
+      </div>
+    </section>
+
+    <section class="container section">
+      <div class="grid grid-2">
+        <div class="panel" id="custom-uc">
+          <span class="eyebrow">Custom amount</span>
+          <h3>Need a different UC quantity?</h3>
+          <p>Enter any amount between <span id="custom-uc-range">60 - 20000 UC</span> and we will price it for you.</p>
+          <div class="field">
+            <label class="label" for="custom-uc-input">UC quantity</label>
+            <input class="input" id="custom-uc-input" type="number" inputmode="numeric" />
+          </div>
+          <div class="stack-row" style="margin-bottom:14px">
+            <span>You pay</span><strong id="custom-uc-price">-</strong>
+          </div>
+          <button class="btn btn-gold btn-block" id="custom-uc-buy">Continue with custom UC</button>
+        </div>
+
+        <div class="panel" id="track">
+          <span class="eyebrow">Already paid?</span>
+          <h3>Track your order</h3>
+          <p>Enter the order ID we showed you (looks like <code>UC-4F2A91B0</code>).</p>
+          <div class="field">
+            <label class="label" for="track-input">Order ID</label>
+            <input class="input mono" id="track-input" placeholder="UC-XXXXXXXX" />
+          </div>
+          <button class="btn btn-outline btn-block" id="track-button">Open order status</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="how">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>Four steps from UPI to UC</h2>
+      </div>
+      <div class="grid grid-2" id="steps"></div>
+    </section>
+
+    <section class="container section" id="faq">
+      <div class="section-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Questions players always ask</h2>
+      </div>
+      <div class="faq" id="faq-list"></div>
+    </section>
+
+    <section class="container section" id="reviews">
+      <div class="section-head">
+        <span class="eyebrow">Reviews</span>
+        <h2>What players say after their top-up</h2>
+        <p id="reviews-summary"></p>
+      </div>
+      <div class="grid grid-3" id="reviews-grid">
+        <p class="skeleton">Loading reviews...</p>
+      </div>
+    </section>
+
+    <section class="container section" id="feedback">
+      <div class="grid grid-2" style="align-items:start">
+        <div class="panel">
+          <span class="eyebrow">Your turn</span>
+          <h3>Send your feedback</h3>
+          <p>
+            Tell us how your order went. Your feedback goes straight to the store owner -
+            it is <strong>never posted publicly</strong>, and it only appears back on
+            <strong>this device</strong> so you can see what you sent.
+          </p>
+          <form id="feedback-form" novalidate>
+            <div class="field">
+              <span class="label">Your rating *</span>
+              <div class="stars-input" id="rating-input" role="radiogroup" aria-label="Rating"></div>
+            </div>
+            <div class="field">
+              <label class="label" for="feedback-name">Your name (optional)</label>
+              <input class="input" id="feedback-name" maxlength="40" placeholder="e.g. Rohit S." />
+            </div>
+            <div class="field">
+              <label class="label" for="feedback-message">Your feedback *</label>
+              <textarea class="textarea" id="feedback-message" maxlength="500"
+                        placeholder="How fast was the delivery? Anything we should improve?"></textarea>
+              <span class="hint"><span id="feedback-count">0</span>/500</span>
+            </div>
+            <div class="form-error" id="feedback-error"></div>
+            <button class="btn btn-primary btn-block" id="feedback-submit" type="submit">
+              Send feedback privately
+            </button>
+          </form>
+        </div>
+
+        <div class="panel">
+          <span class="eyebrow">Private to this device</span>
+          <h3>Your feedback</h3>
+          <p class="hint">
+            Saved in this browser only. Nobody else visiting the store can read it, and it
+            is never shown on the public page.
+          </p>
+          <div id="my-feedback-list">
+            <p class="skeleton">You have not sent any feedback from this device yet.</p>
+          </div>
+          <button class="btn btn-ghost btn-block hidden" id="clear-my-feedback" style="margin-top:14px">
+            Clear my feedback from this device
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="stack-row">
+        <span>&copy; <span data-site-name>UC store</span></span>
+        <span>
+          Support: <a id="support-email" href="#">-</a>
+          &middot; <a id="support-whatsapp" href="#">WhatsApp</a>
+        </span>
+      </div>
+      <p id="disclaimer" class="hint"></p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/home.js"></script>
+</body>
+</html>
